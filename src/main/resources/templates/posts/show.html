@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/partials :: head">
-    <meta charset="UTF-8">
-    <title>Post</title>
 </head>
 <body>
 
     <nav th:replace="partials/partials :: navbar"></nav>
 
-    <h1></h1>
+    <div class="container">
+        <h1 th:text="${post.getTitle()}"></h1>
+        <p th:text="${post.getBody()}"></p>
+    </div>
 
     <footer th:replace="partials/partials :: footer"></footer>
 
