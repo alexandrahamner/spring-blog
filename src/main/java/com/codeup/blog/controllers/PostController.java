@@ -12,7 +12,7 @@ class PostController {
     @GetMapping("/posts")
     @ResponseBody
     public String postsIndex() {
-        return "posts index page";
+        return "index";
     }
 
     @GetMapping("/posts/{id}")
