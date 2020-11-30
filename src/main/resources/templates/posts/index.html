@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/partials :: head">
+</head>
+<body>
+
+    <nav th:replace="partials/partials :: navbar"></nav>
+
+    <div class="container">
+        <h1>Viewing all posts</h1>
+
+        <div th:each="post : ${postIndex}">
+            <h3 th:text="${post.getTitle()}"></h3>
+            <p th:text="${post.getBody()}"></p>
+        </div>
+    </div>
+
+
+    <footer th:replace="partials/partials :: footer"></footer>
+
+    <script th:replace="partials/partials :: jquery-script"></script>
+    <script th:replace="partials/partials :: bootstrap-script"></script>
+</body>
+</html>

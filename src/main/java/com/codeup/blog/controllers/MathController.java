@@ -14,7 +14,7 @@ class MathController {
     @RequestMapping(path = "/subtract/{number1}/from/{number2}", method = RequestMethod.GET)
     @ResponseBody
     public String subtract(@PathVariable int number1, @PathVariable int number2) {
-        return number1 + " minus " + number2 + " equals " + (number1-number2) + "!";
+        return number2 + " minus " + number1 + " equals " + (number2-number1) + "!";
     }
 
     @RequestMapping(path = "/multiply/{number1}/and/{number2}", method = RequestMethod.GET)
@@ -23,9 +23,9 @@ class MathController {
         return number1 + " multiplied by " + number2 + " equals " + (number1*number2) + "!";
     }
 
-    @RequestMapping(path = "/divide/{number1}/and/{number2}", method = RequestMethod.GET)
+    @RequestMapping(path = "/divide/{number1}/by/{number2}", method = RequestMethod.GET)
     @ResponseBody
-    public String divide(@PathVariable int number1, @PathVariable int number2) {
+    public String divide(@PathVariable double number1, @PathVariable double number2) {
         return number1 + " divided by " + number2 + " equals " + (number1/number2) + "!";
     }
 }
