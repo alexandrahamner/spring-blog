@@ -6,7 +6,17 @@
 </head>
 <body>
 
-    <h1></h1>
+    <nav th:replace="partials/partials :: navbar"></nav>
+
+    <div class="container">
+        <h1>Viewing all posts</h1>
+
+        <div th:each="post : ${postIndex}">
+            <h3 th:text="${post.getTitle()}"></h3>
+            <p th:text="${post.getBody()}"></p>
+        </div>
+    </div>
+
 
     <footer th:replace="partials/partials :: footer"></footer>
 
