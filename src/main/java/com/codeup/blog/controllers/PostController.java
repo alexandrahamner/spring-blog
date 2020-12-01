@@ -6,9 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 class PostController {
@@ -33,19 +30,37 @@ class PostController {
     }
 
     @GetMapping("/posts/create")
-    public String viewCreateForm() {
+    public String viewCreateForm(Model viewModel) {
+        viewModel.addAttribute("post", new Post());
         return "posts/create";
     }
 
     @PostMapping("/posts/create")
     @ResponseBody
     public String createPost(
-            @RequestParam(name = "title") String title,
-            @RequestParam(name = "body") String body
+            @ModelAttribute Post post,
+            Model model
     ) {
-        Post post = new Post(title, body);
-        Post dbPost = postDao.save(post);
-        return "create a new Ad with the id: " + dbPost.getId();
-
+        model.addAttribute("post", post);
+        postDao.save(post);
+        return "redirect:/posts/index";
     }
+
+    @GetMapping("/posts/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+        model.addAttribute("post", postDao.getOne(id));
+        return "/posts/edit";
+    }
+
+    @PostMapping("/posts/edit")
+    public String updatePost(
+            @RequestParam(name = "id") Long id,
+            @RequestParam(name = "title") String title,
+            @RequestParam(name = "body") String body) {
+
+        Post post = new Post(id, title, body);
+        postDao.save(post);
+        return "redirect:/posts/" + id.toString();
+    }
+
 }
