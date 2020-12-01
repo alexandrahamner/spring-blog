@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/partials :: head (pageTitle='Create Post')">
+</head>
+<body>
+
+    <nav th:replace="partials/partials :: navbar"></nav>
+    <br>
+    <main>
+        <div class="container">
+            <div class="card">
+                <h1 class="card-header">Create a Post</h1>
+                <div class="card-body">
+                    <form th:action="@{/posts/create}" th:method="post">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" id="title" name="title">
+                        </div>
+                        <div class="form-group">
+                            <label for="body">Body</label>
+                            <textarea class="form-control" id="body" rows="3" cols="50" name="body"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-dark">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <br>
+    <footer th:replace="partials/partials :: footer"></footer>
+
+    <script th:replace="partials/partials :: jquery-script"></script>
+    <script th:replace="partials/partials :: bootstrap-script"></script>
+</body>
+</html>

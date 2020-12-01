@@ -4,10 +4,7 @@ import com.codeup.blog.PostRepository;
 import com.codeup.blog.models.Post;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,16 +33,19 @@ class PostController {
     }
 
     @GetMapping("/posts/create")
-    @ResponseBody
     public String viewCreateForm() {
-        return "view the form for creating a post";
+        return "posts/create";
     }
 
     @PostMapping("/posts/create")
     @ResponseBody
-    public String submitPost() {
-        Post postTest = new Post("CSS Grid How-to", "lorem ipsum stuff");
-        Post dbPost = postDao.save(postTest);
-        return "create a new post with the id: " + dbPost.getId();
+    public String createPost(
+            @RequestParam(name = "title") String title,
+            @RequestParam(name = "body") String body
+    ) {
+        Post post = new Post(title, body);
+        Post dbPost = postDao.save(post);
+        return "create a new Ad with the id: " + dbPost.getId();
+
     }
 }
