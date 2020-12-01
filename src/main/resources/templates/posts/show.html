@@ -5,12 +5,16 @@
 <body>
 
     <nav th:replace="partials/partials :: navbar"></nav>
-
-    <div class="container">
-        <h1 th:text="${post.getTitle()}"></h1>
-        <p th:text="${post.getBody()}"></p>
-    </div>
-
+    <br>
+    <main>
+        <div class="container">
+            <div class="card">
+                <h1 class="card-header" th:text="${post.getTitle()}"></h1>
+                <p class="card-body" th:text="${post.getBody()}"></p>
+            </div>
+        </div>
+    </main>
+    <br>
     <footer th:replace="partials/partials :: footer"></footer>
 
     <script th:replace="partials/partials :: jquery-script"></script>
