@@ -5,17 +5,18 @@
 <body>
 
     <nav th:replace="partials/partials :: navbar"></nav>
-
-    <div class="container">
-        <h1>Viewing all posts</h1>
-
-        <div th:each="post : ${postIndex}">
-            <h3 th:text="${post.getTitle()}"></h3>
-            <p th:text="${post.getBody()}"></p>
+    <br>
+    <main>
+        <div class="container">
+            <h1>Viewing all posts</h1>
+            <br>
+            <div class="card" th:each="post : ${posts}">
+                <a th:href="@{/posts/{post} (post=${post.id})}"><h3 class="card-header" th:text="${post.getTitle()}"></h3></a>
+                <p class="card-body" th:text="${post.getBody()}"></p>
+            </div>
         </div>
-    </div>
-
-
+    </main>
+    <br>
     <footer th:replace="partials/partials :: footer"></footer>
 
     <script th:replace="partials/partials :: jquery-script"></script>
