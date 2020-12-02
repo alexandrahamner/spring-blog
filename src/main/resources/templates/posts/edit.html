@@ -24,9 +24,8 @@
                     <button type="submit" class="btn btn-dark">Submit</button>
                 </form>
                 <br>
-                <form th:action="@{/posts/delete}" th:method="POST">
+                <form th:action="@{/posts/{id}/delete (id = ${post.id})}" th:method="POST">
                     <div class="form-group">
-                        <input th:type="hidden" th:name="id" th:value="${post.id}">
                         <button th:type="submit" class="btn btn-danger">Delete</button>
                     </div>
                 </form>
