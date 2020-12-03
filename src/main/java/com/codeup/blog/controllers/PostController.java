@@ -2,6 +2,7 @@ package com.codeup.blog.controllers;
 
 import com.codeup.blog.repos.PostRepository;
 import com.codeup.blog.models.Post;
+import com.codeup.blog.repos.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,11 @@ class PostController {
 
     // These two next steps are often called dependency injection, where we create a Repository instance and initialize it in the controller class constructor.
     private final PostRepository postDao;
+    private final UserRepository userDao;
 
-    public PostController(PostRepository postDao) {
+    public PostController(PostRepository postDao, UserRepository userDao) {
         this.postDao = postDao;
+        this.userDao = userDao;
     }
 
     @GetMapping("/posts")
