@@ -1,5 +1,6 @@
 package com.codeup.blog.models;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -17,23 +18,34 @@ public class User {
     @Column(nullable = false, length = 50)
     private String password;
 
-    public User() {}
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Post> posts;
+
+ /* ------------------------------------------------------------------------------------ */
+
+//CONSTRUCTORS
+    public User(){}
 
     //CREATE
-    public User(String email, String username, String password) {
+    public User(String email, String username, String password, List<Post> posts) {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.posts = posts;
     }
 
     // READ
-    public User(long id, String email, String username, String password) {
+    public User(long id, String email, String username, String password, List<Post> posts) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
+        this.posts = posts;
     }
 
+/* ------------------------------------------------------------------------------------ */
+
+// GETTERS AND SETTERS
     public long getId() {
         return id;
     }
@@ -64,5 +76,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 }
