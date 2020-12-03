@@ -12,6 +12,7 @@
                 <h1 class="card-header" th:text="${post.title}"></h1>
                 <div class="card-body">
                     <p  th:text="${post.body}"></p>
+                    <p>Post Created by: <span th:text="${post.owner.email}"></span></p>
                     <form th:action="@{/posts/{post}/edit (post=${post.id})}" th:method="get">
                         <div class="form-group">
                             <input th:type="hidden" th:name="id" th:value="${post.id}">
