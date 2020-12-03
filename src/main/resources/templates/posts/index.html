@@ -11,8 +11,12 @@
             <h1>Viewing all posts</h1>
             <br>
             <div class="card" th:each="post : ${posts}">
-                <a th:href="@{/posts/{post} (post=${post.id})}"><h3 class="card-header" th:text="${post.getTitle()}"></h3></a>
-                <p class="card-body" th:text="${post.getBody()}"></p>
+                <a th:href="@{/posts/{post} (post=${post.id})}"><h3 class="card-header" th:text="${post.title}"></h3></a>
+                <div class="card-body">
+                    <p th:text="${post.body}"></p>
+                    <p>Post Created by: <span th:text="${post.owner.email}"></span></p>
+                </div>
+
             </div>
         </div>
     </main>

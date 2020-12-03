@@ -1,5 +1,6 @@
 package com.codeup.blog.controllers;
 
+import com.codeup.blog.models.User;
 import com.codeup.blog.repos.PostRepository;
 import com.codeup.blog.models.Post;
 import com.codeup.blog.repos.UserRepository;
@@ -34,18 +35,21 @@ class PostController {
 
     @GetMapping("/posts/create")
     public String viewCreateForm(Model viewModel) {
-        viewModel.addAttribute("post", new Post());
+//        viewModel.addAttribute("post", new Post());
         return "posts/create";
     }
 
     @PostMapping("/posts/create")
     public String createPost(
-            @ModelAttribute Post post,
-            Model model
+//            @ModelAttribute Post post,
+//            Model model
+            @RequestParam(name = "title") String title,
+            @RequestParam(name = "body") String body
     ) {
-        model.addAttribute("post", post);
-        postDao.save(post);
-        return "redirect:/posts/";
+        User owner = userDao.getOne(1L);
+        Post post = new Post(title, body, owner);
+        Post dbPost = postDao.save(post);
+        return "redirect:/posts/"+ dbPost.getId();
     }
 
     @GetMapping("/posts/{id}/edit")
