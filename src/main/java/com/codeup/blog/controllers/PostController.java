@@ -1,5 +1,6 @@
 package com.codeup.blog.controllers;
 
+import com.codeup.blog.services.EmailService;
 import com.codeup.blog.models.User;
 import com.codeup.blog.repos.PostRepository;
 import com.codeup.blog.models.Post;
@@ -15,10 +16,12 @@ class PostController {
     // These two next steps are often called dependency injection, where we create a Repository instance and initialize it in the controller class constructor.
     private final PostRepository postDao;
     private final UserRepository userDao;
+    private final EmailService emailService;
 
-    public PostController(PostRepository postDao, UserRepository userDao) {
+    public PostController(PostRepository postDao, UserRepository userDao, EmailService emailService) {
         this.postDao = postDao;
         this.userDao = userDao;
+        this.emailService = emailService;
     }
 
     @GetMapping("/posts")
@@ -40,10 +43,11 @@ class PostController {
     }
 
     @PostMapping("/posts/create")
-    public String createPost(@ModelAttribute Post post) {
+    public String createPost(@ModelAttribute Post postToBeSaved) {
         User owner = userDao.getOne(1L);
-        post.setOwner(owner);
-        Post dbPost = postDao.save(post);
+        postToBeSaved.setOwner(owner);
+        Post dbPost = postDao.save(postToBeSaved);
+        emailService.prepareAndSend(dbPost,"A new post has been created!", "You can find the post at id" + dbPost.getId());
         return "redirect:/posts/"+ dbPost.getId();
     }
 
@@ -54,9 +58,11 @@ class PostController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String updatePost(@PathVariable Long id, @ModelAttribute Post post) {
-        postDao.save(post);
-        return "redirect:/posts/" + post.getId();
+    public String updatePost(@PathVariable Long id, @ModelAttribute Post postToBeUpdated) {
+        User owner = userDao.getOne(1L); //A user object coming from the session in the future.
+        postToBeUpdated.setOwner(owner);
+        postDao.save(postToBeUpdated);
+        return "redirect:/posts/" + postToBeUpdated.getId();
     }
 
     @PostMapping("posts/{id}/delete")
