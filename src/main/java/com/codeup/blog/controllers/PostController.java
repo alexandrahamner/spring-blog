@@ -48,22 +48,15 @@ class PostController {
     }
 
     @GetMapping("/posts/{id}/edit")
-    public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("post", postDao.getOne(id));
+    public String viewEditForm(@PathVariable Long id, Model viewModel) {
+        viewModel.addAttribute("post", postDao.getOne(id));
         return "/posts/edit";
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String updatePost(
-            @PathVariable Long id,
-            @RequestParam(name = "title") String title,
-            @RequestParam(name = "body") String body) {
-
-        Post dbPost = postDao.getOne(id);
-        dbPost.setTitle(title);
-        dbPost.setBody(body);
-        postDao.save(dbPost);
-        return "redirect:/posts/" + dbPost.getId();
+    public String updatePost(@PathVariable Long id, @ModelAttribute Post post) {
+        postDao.save(post);
+        return "redirect:/posts/" + post.getId();
     }
 
     @PostMapping("posts/{id}/delete")
