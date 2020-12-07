@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/partials :: head (pageTitle='Sign-Up!')">
+</head>
+
+<body>
+    <nav th:replace="partials/partials :: navbar"></nav>
+    <br />
+    <div class="container">
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h1>Create an account</h1>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/sign-up}" method="POST" th:object="${user}">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input id="username" class="form-control" th:field="*{username}" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input id="email" class="form-control" th:field="*{email}" />
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input id="password" class="form-control" type="password" th:field="*{password}" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Sign me up!</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <br />
+        <footer th:replace="partials/partials :: footer"></footer>
+    </div>
+
+    <script th:replace="partials/partials :: jquery-script"></script>
+    <script th:replace="partials/partials :: bootstrap-script"></script>
+
+
+</body>
+</html>
