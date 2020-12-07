@@ -26,6 +26,15 @@ public class User {
 //CONSTRUCTORS
     public User(){}
 
+    //Copy Constructor
+    /* It is used as an alternative to cloning an object. Instead of using the method clone, we create a new object using the current values of another. This will be used in order to fulfill the contract defined by the interfaces in the security package. */
+    public User(User copy) {
+        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        email = copy.email;
+        username = copy.username;
+        password = copy.password;
+    }
+
     //CREATE
     public User(String email, String username, String password, List<Post> posts) {
         this.email = email;
