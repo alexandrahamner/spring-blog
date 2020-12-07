@@ -5,6 +5,7 @@ import com.codeup.blog.models.User;
 import com.codeup.blog.repos.PostRepository;
 import com.codeup.blog.models.Post;
 import com.codeup.blog.repos.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +45,7 @@ class PostController {
 
     @PostMapping("/posts/create")
     public String createPost(@ModelAttribute Post postToBeSaved) {
-        User owner = userDao.getOne(1L);
+        User owner = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         postToBeSaved.setOwner(owner);
         Post dbPost = postDao.save(postToBeSaved);
         emailService.prepareAndSend(dbPost,"A new post has been created!", "You can find the post at id" + dbPost.getId());
@@ -59,7 +60,7 @@ class PostController {
 
     @PostMapping("/posts/{id}/edit")
     public String updatePost(@PathVariable Long id, @ModelAttribute Post postToBeUpdated) {
-        User owner = userDao.getOne(1L); //A user object coming from the session in the future.
+        User owner = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         postToBeUpdated.setOwner(owner);
         postDao.save(postToBeUpdated);
         return "redirect:/posts/" + postToBeUpdated.getId();
