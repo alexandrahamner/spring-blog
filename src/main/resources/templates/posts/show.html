@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="partials/partials :: head (pageTitle='Viewing a post')">
 </head>
 <body>
@@ -13,12 +14,14 @@
                 <div class="card-body">
                     <p  th:text="${post.body}"></p>
                     <p>Post Created by: <span th:text="${post.owner.email}"></span></p>
-                    <form th:action="@{/posts/{post}/edit (post=${post.id})}" th:method="get">
-                        <div class="form-group">
-                            <input th:type="hidden" th:name="id" th:value="${post.id}">
-                            <button class="btn btn-dark">Edit</button>
-                        </div>
-                    </form>
+                    <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == post.owner.id}">
+                        <form th:action="@{/posts/{post}/edit (post=${post.id})}" th:method="get">
+                            <div class="form-group">
+                                <input th:type="hidden" th:name="id" th:value="${post.id}">
+                                <button class="btn btn-dark">Edit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

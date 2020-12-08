@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/partials :: head (pageTitle='Welcome | La Lunatic')">
+</head>
+<body>
+
+<nav th:replace="partials/partials :: navbar"></nav>
+
+<header class="header">
+    <div class="logo-box">
+        <img alt="Logo" class="logo">
+    </div>
+    <div class="header-text-box">
+        <!-- Primary Heading Text -->
+        <h1 class="heading-primary">
+            <span class="heading-primary-main">La Lunatic</span>
+            <span class="heading-primary-sub">A blog about crazy cats</span>
+        </h1>
+    </div>
+</header>
+
+
+<footer th:replace="partials/partials :: footer"></footer>
+
+<script th:replace="partials/partials :: jquery-script"></script>
+<script th:replace="partials/partials :: bootstrap-script"></script>
+</body>
+</html>
