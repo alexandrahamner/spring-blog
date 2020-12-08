@@ -6,28 +6,30 @@
 <body>
     <nav th:replace="partials/partials :: navbar"></nav>
     <br>
-    <main>
         <div class="container">
-            <div class="card">
-                <h1 class="card-header">Create a Post</h1>
-                <div class="card-body">
-                    <form th:action="@{/posts/create}" th:method="post" th:object="${post}">
-                        <div class="form-group">
-                            <label for="title">Title</label>
-                            <input type="text" class="form-control" id="title" th:field="*{title}">
-                        </div>
-                        <div class="form-group">
-                            <label for="body">Body</label>
-                            <textarea class="form-control" id="body" rows="3" cols="50" th:field="*{body}"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-dark">Submit</button>
-                    </form>
+            <main>
+                <div class="card">
+                    <h1 class="card-header">Create a Post</h1>
+                    <div class="card-body">
+                        <form th:action="@{/posts/create}" th:method="post" th:object="${post}">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" class="form-control" id="title" th:field="*{title}">
+                                <div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="body">Body</label>
+                                <textarea class="form-control" id="body" rows="3" cols="50" th:field="*{body}"></textarea>
+                                <div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></div>
+                            </div>
+                            <button type="submit" class="btn btn-dark">Submit</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            </main>
+            <br>
+            <footer th:replace="partials/partials :: footer"></footer>
         </div>
-    </main>
-    <br>
-    <footer th:replace="partials/partials :: footer"></footer>
 
     <script th:replace="partials/partials :: jquery-script"></script>
     <script th:replace="partials/partials :: bootstrap-script"></script>

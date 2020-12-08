@@ -8,7 +8,11 @@ import com.codeup.blog.repos.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.Validation;
 
 
 @Controller
@@ -44,7 +48,16 @@ class PostController {
     }
 
     @PostMapping("/posts/create")
-    public String createPost(@ModelAttribute Post postToBeSaved) {
+    public String createPost(
+            @ModelAttribute Post postToBeSaved,
+            @Valid Post post,
+            Errors validation,
+            Model model) {
+        if (validation.hasErrors()) {
+            model.addAttribute("errors", validation);
+            model.addAttribute("post", post);
+            return "posts/create";
+        }
         User owner = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         postToBeSaved.setOwner(owner);
         Post dbPost = postDao.save(postToBeSaved);
