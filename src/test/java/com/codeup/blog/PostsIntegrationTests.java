@@ -98,6 +98,7 @@ public class PostsIntegrationTests {
                 .andExpect(status().is3xxRedirection());
     }
 
+    //Read Test
     @Test
     public void testShowPost() throws Exception {
 
@@ -112,7 +113,7 @@ public class PostsIntegrationTests {
 
     @Test
     public void testPostsIndex() throws Exception {
-        Post existingAd = postsDao.findAll().get(0);
+        Post existingPost = postsDao.findAll().get(0);
 
         // Makes a Get request to /ads and verifies that we get some of the static text of the ads/index.html template and at least the title from the first Ad is present in the template.
         this.mvc.perform(get("/posts"))
@@ -120,6 +121,50 @@ public class PostsIntegrationTests {
                 // Test the static content of the page
                 .andExpect(content().string(containsString("Viewing All Posts")))
                 // Test the dynamic content of the page
-                .andExpect(content().string(containsString(existingAd.getTitle())));
+                .andExpect(content().string(containsString(existingPost.getTitle())));
+    }
+
+    //Update Test
+    @Test
+    public void testEditPost() throws Exception {
+        // Gets the first Ad for tests purposes
+        Post existingPost = postsDao.findAll().get(0);
+
+        // Makes a Post request to /ads/{id}/edit and expect a redirection to the Ad show page
+        this.mvc.perform(
+                post("/posts/" + existingPost.getId() + "/edit").with(csrf())
+                        .session((MockHttpSession) httpSession)
+                        .param("title", "edited title")
+                        .param("body", "edited body"))
+                .andExpect(status().is3xxRedirection());
+
+        // Makes a GET request to /ads/{id} and expect a redirection to the Ad show page
+        this.mvc.perform(get("/posts/" + existingPost.getId()))
+                .andExpect(status().isOk())
+                // Test the dynamic content of the page
+                .andExpect(content().string(containsString("edited title")))
+                .andExpect(content().string(containsString("edited body")));
+    }
+
+    //Delete Test
+    @Test
+    public void testDeletePost() throws Exception {
+        // Creates a test Ad to be deleted
+        this.mvc.perform(
+                post("/posts/create").with(csrf())
+                        .session((MockHttpSession) httpSession)
+                        .param("title", "post to be deleted")
+                        .param("body", "won't last long"))
+                .andExpect(status().is3xxRedirection());
+
+        // Get the recent Ad that matches the title
+        Post existingPost = postsDao.findByTitle("post to be deleted");
+
+        // Makes a Post request to /ads/{id}/delete and expect a redirection to the Ads index
+        this.mvc.perform(
+                post("/posts/" + existingPost.getId() + "/delete").with(csrf())
+                        .session((MockHttpSession) httpSession)
+                        .param("id", String.valueOf(existingPost.getId())))
+                .andExpect(status().is3xxRedirection());
     }
 }
