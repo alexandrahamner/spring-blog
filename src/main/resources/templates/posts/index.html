@@ -8,7 +8,7 @@
     <br>
     <main>
         <div class="container">
-            <h1>Viewing all posts</h1>
+            <h1>Viewing All Posts</h1>
             <br>
             <div class="card" th:each="post : ${posts}">
                 <a th:href="@{/posts/{post} (post=${post.id})}"><h3 class="card-header" th:text="${post.title}"></h3></a>
