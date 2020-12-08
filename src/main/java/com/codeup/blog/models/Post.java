@@ -1,5 +1,7 @@
 package com.codeup.blog.models;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "posts")
@@ -8,9 +10,12 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "A post has to have a title!")
+    @Size(min = 3, message = "A title must be at least 3 characters.")
     @Column(nullable = false)
     private String title;
 
+    @NotBlank(message = "Posts must have a body")
     @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
 
